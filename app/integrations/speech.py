@@ -23,7 +23,7 @@ from app.services.errors import ServiceError
 
 log = logging.getLogger(__name__)
 
-MODELS = PROJECT_ROOT / "data" / "models"
+MODELS = settings.data_dir / "models"
 HF = "https://huggingface.co"
 FILES = {
     "ggml-large-v3-turbo-q5_0.bin": (

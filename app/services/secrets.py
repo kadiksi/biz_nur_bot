@@ -18,7 +18,7 @@ from dotenv import dotenv_values
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.config import PROJECT_ROOT
+from app.config import settings
 from app.models import SecretRequest
 from app.services import changelog
 from app.services.access import require_owner
@@ -26,7 +26,7 @@ from app.services.context import Actor
 from app.services.errors import NotFound, ValidationError
 from app.timeutil import utcnow
 
-ENV_PATH: Path = PROJECT_ROOT / ".env"   # тесты подменяют
+ENV_PATH: Path = settings.secrets_file   # тесты подменяют
 KEY_RE = re.compile(r"^[A-Z][A-Z0-9_]{2,63}$")
 # Эти ключи бот не трогает: доступ к Telegram, Claude, базе, сайту и 1С
 PROTECTED = re.compile(r"^(OWNER_TELEGRAM_ID|ANTHROPIC_API_KEY|DATABASE_URL|BOT_TOKEN_.*|SITE_.*|ONEC_.*|MODEL_.*|"

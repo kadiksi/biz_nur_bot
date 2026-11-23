@@ -29,6 +29,17 @@ scripts/service.sh status | logs | uninstall
 вход запоминается на 30 дней. Сайт открывается только из той же сети, что и этот компьютер.
 Отдельно: `python -m app.bots.main_bot` — только бот, `python -m app.web` — только сайт.
 
+## Railway
+
+Запуск задан в `railpack.json` / `railway.json` (`python -m app.run`, проверка `/healthz`). В сервисе:
+
+1. **Volume** с точкой монтирования `/app/data`. Там лежат база, модель распознавания и ключи сервисов
+   (`secrets.env`). Без тома всё стирается при каждом деплое.
+2. **Variables**: `BOT_TOKEN_MAIN`, `OWNER_TELEGRAM_ID`, `ANTHROPIC_API_KEY`, `TIMEZONE`. 1С, если она доступна из интернета:
+   `ONEC_<ИМЯ>_URL/_USER/_PASSWORD`. Порт берётся из `PORT`, адрес сайта — из публичного домена Railway.
+3. **Networking → Generate Domain**, чтобы ссылки `/site` открывались.
+4. Только одна реплика: два бота с одним токеном конфликтуют. Локальную службу на это время остановите (`scripts/service.sh uninstall`).
+
 ## Устройство
 
 - `app/models.py` — схема БД, `app/catalog.py` — компании, отделы, показатели.
