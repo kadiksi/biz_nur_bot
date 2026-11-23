@@ -1,0 +1,2 @@
+{% include "blocks/_head.html" %}
+{% if not b.error %}<div class="kpis">{% for m in b["items"] %}{% include "blocks/_kpi.html" %}{% endfor %}</div>{% endif %}

@@ -1,0 +1,2 @@
+{% if b.title %}<header class="block__head"><h2>{{ b.title }}</h2></header>{% endif %}
+<div class="prose">{% for para in b.text.split("\n\n") %}<p>{{ para | replace("\n", " ") }}</p>{% endfor %}</div>

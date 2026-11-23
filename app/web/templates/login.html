@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="notice">
+  {% if employee %}
+  <h1 class="page-title">{{ t("login_title") }}</h1>
+  <p>{{ employee.full_name }}, нажмите, чтобы войти на этом устройстве.</p>
+  <form method="post" action="/login/{{ token }}" hx-boost="false"><button class="btn" type="submit">{{ t("login_button") }}</button></form>
+  {% else %}
+  <h1 class="page-title">{{ t("login_expired_title") }}</h1>
+  <p>{{ t("login_expired_text") }}</p>
+  {% endif %}
+</div>
+{% endblock %}

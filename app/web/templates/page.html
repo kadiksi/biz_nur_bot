@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head">
+  <div>
+    <h1 class="page-title">{{ current.title }}</h1>
+    <p class="page-meta">{{ company_name }} · {{ period_label }}</p>
+  </div>
+  <div class="page-head__status">
+  {% if fresh %}
+  <span class="fresh{% if fresh.has_error %} is-error{% elif fresh.is_stale %} is-stale{% endif %}"
+        {% if fresh.message %}title="{{ fresh.message }}"{% endif %}>
+    <i></i>{{ fresh.label }}
+  </span>
+  {% endif %}
+  </div>
+</section>
+
+<div class="sync" data-sync hidden role="status" aria-live="polite">
+  <div class="sync__row"><span class="sync__label">{{ t("sync_label") }}</span><b class="sync__pct" data-sync-pct>0 %</b></div>
+  <div class="sync__track"><div class="sync__fill" data-sync-fill></div></div>
+  <p class="sync__detail" data-sync-detail></p>
+</div>
+
+<form class="filters" method="get" action="/p/{{ current.slug }}">
+  {% if company_options|length > 1 %}
+  <div class="seg" role="group" aria-label="Компания">
+    {% for code, name in company_options %}
+    <a class="seg__item{% if code == company %} is-active{% endif %}"
+       href="/p/{{ current.slug }}?company={{ code }}&period={{ period }}">{{ name }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+  <input type="hidden" name="company" value="{{ company }}">
+  <label class="select">
+    <span class="sr-only">Период</span>
+    <select name="period" data-autosubmit data-period-select>
+      {% for key, label in periods %}
+      <option value="{{ key }}"{% if key == period %} selected{% endif %}>{{ t("period_" ~ key) }}</option>
+      {% endfor %}
+      <option value="custom"{% if custom %} selected{% endif %}>{{ t("period_custom") }}</option>
+    </select>
+  </label>
+  <span class="dates" data-dates{% if not custom %} hidden{% endif %}>
+    <label><span class="sr-only">С</span><input type="date" name="from" value="{{ date_from }}"{% if not custom %} disabled{% endif %} required></label>
+    <span aria-hidden="true">–</span>
+    <label><span class="sr-only">По</span><input type="date" name="to" value="{{ date_to }}"{% if not custom %} disabled{% endif %} required></label>
+    <button type="submit" class="btn-small">{{ t("show") }}</button>
+  </span>
+  <noscript><button type="submit">{{ t("show") }}</button></noscript>
+</form>
+
+{% if partial %}
+<p class="hint">{{ t("hint_partial") }}</p>
+{% endif %}
+{% if no_companies %}
+<p class="hint">{{ t("hint_no_companies") }}</p>
+{% endif %}
+<div class="grid">
+{% for b in blocks %}
+  <section class="block block--{{ b.type }} w-{{ b.width }}">
+    {% include "blocks/" ~ b.type ~ ".html" %}
+  </section>
+{% endfor %}
+</div>
+{% endblock %}

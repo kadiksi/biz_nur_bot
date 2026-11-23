@@ -1,0 +1,19 @@
+{% include "blocks/_head.html" %}
+{% if not b.error %}
+<div class="table-wrap">
+<table class="pf">
+  <thead><tr><th>{{ t("table_metric") }}</th><th>{{ t("table_plan") }}</th><th>{{ t("table_fact") }}</th><th class="hide-sm">{{ t("table_dev") }}</th><th>{{ t("table_pct") }}</th></tr></thead>
+  <tbody>
+  {% for r in b.rows %}
+    <tr>
+      <td>{{ r.name }}{% if r.lower_better %} <span class="hint" title="{{ t('lower_better') }}">↓</span>{% endif %}</td>
+      <td class="num">{{ r.plan }}</td>
+      <td class="num strong">{{ r.fact }}</td>
+      <td class="num hide-sm">{{ r.dev }}</td>
+      <td class="num"><span class="pill pill--{{ r.status }}">{% if r.pct is not none %}{{ r.pct }}&nbsp;%{% else %}—{% endif %}</span></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}

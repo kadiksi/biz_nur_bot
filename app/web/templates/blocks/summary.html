@@ -1,0 +1,11 @@
+{% include "blocks/_head.html" %}
+{% if not b.error %}
+<div class="sum-groups">
+{% for g in b.groups %}
+<div class="sum-group">
+  <h3 class="sum-group__title">{{ g.name }}</h3>
+  <div class="kpis">{% for m in g["items"] %}{% include "blocks/_kpi.html" %}{% endfor %}</div>
+</div>
+{% endfor %}
+</div>
+{% endif %}

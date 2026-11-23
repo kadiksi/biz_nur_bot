@@ -1,0 +1,24 @@
+{% include "blocks/_head.html" %}
+{% if not b.error %}
+<div class="board" data-board>
+  {% for col in b.columns %}
+  <div class="col">
+    <header class="col__head"><span>{{ col.label }}</span><span class="col__count">{{ col.cards|length }}</span></header>
+    <div class="col__list" data-status="{{ col.status }}">
+      {% for c in col.cards %}
+      <article class="card{% if not c.movable %} is-locked{% endif %}" data-id="{{ c.id }}">
+        <p class="card__title">{{ c.title }}</p>
+        {% if c.description %}<p class="card__desc">{{ c.description }}</p>{% endif %}
+        <p class="card__meta">
+          {% if c.priority == "high" %}<span class="tag tag--high">{{ c.priority_label }}</span>{% endif %}
+          {% if b.show_company %}<span class="tag">{{ c.company }}</span>{% endif %}
+          {% if c.due %}<span class="tag{% if c.overdue %} tag--overdue{% endif %}">{{ t("due") }} {{ c.due }}</span>{% endif %}
+          {% if c.assignee %}<span class="card__who">{{ c.assignee }}</span>{% endif %}
+        </p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}

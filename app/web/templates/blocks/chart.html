@@ -1,0 +1,5 @@
+{% include "blocks/_head.html" %}
+{% if not b.error %}
+<div class="chart"><canvas aria-label="{{ b.title }}" role="img"></canvas></div>
+<script type="application/json" data-chart>{{ b.chart | tojson }}</script>
+{% endif %}

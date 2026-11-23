@@ -1,0 +1,6 @@
+<article class="kpi kpi--{{ m.status }}">
+  <p class="kpi__name">{{ m.name }}</p>
+  <p class="kpi__fact">{{ m.fact }}</p>
+  <div class="bar" role="img" aria-label="Выполнение {{ m.pct if m.pct is not none else '—' }} %"><span style="width: {{ m.bar or 0 }}%"></span></div>
+  <p class="kpi__plan"><span>{{ t("kpi_plan") }} {{ m.plan }}</span><b>{% if m.pct is not none %}{{ m.pct }}&nbsp;%{% else %}—{% endif %}</b></p>
+</article>
